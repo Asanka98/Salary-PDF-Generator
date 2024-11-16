@@ -1,0 +1,41 @@
+{
+  "name": "salary-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "bin": {
+    "csv-to-pdf-app": "server.js"
+  },
+  "build": {
+    "appId": "com.yourapp.csvtopdf",
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "electron": "^25.9.8",
+    "electron-builder": "^25.1.8"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron .",
+    "dev": "concurrently \"npm run start\" \"npm run electron\"",
+    "build": "electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "express": "^4.21.1",
+    "multer": "^1.4.5-lts.1",
+    "pdf-lib": "^1.17.1"
+  }
+}

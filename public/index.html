@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to PDF Converter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type="file"] {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="file"]::file-selector-button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="file"]::file-selector-button:hover {
+            background-color: #45a049;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+        .success-message, .error-message {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .success-message {
+            color: green;
+        }
+        .error-message {
+            color: red;
+        }
+        /* Popup styling */
+        #descriptionPopup {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -20%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hidden */
+        }
+        #closePopupButton {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <h1>CSV to PDF Converter</h1>
+        
+        <!-- Success and error messages -->
+        <div id="successMessage" class="success-message" style="display: none;">
+            PDFs generated successfully! Check the project directory.
+        </div>
+        <div id="errorMessage" class="error-message" style="display: none;">
+            Something went wrong! Please try again.
+        </div>
+        
+        <input type="file" name="csvFile" accept=".csv" required />
+        <button type="submit">Convert to PDF</button>
+    </form>
+
+    <!-- Popup element -->
+    <div id="descriptionPopup">
+        <p>This is a description popup!</p>
+        <button id="closePopupButton" onclick="closeDescriptionPopup()">Close</button>
+    </div>
+
+    <script>
+        // Check if URL contains 'success=true' or 'error=true'
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            document.getElementById('successMessage').style.display = 'block';
+        } else if (urlParams.get('error') === 'true') {
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+
+        // Disable submit button while form is being submitted
+        const form = document.querySelector('form');
+        form.addEventListener('submit', () => {
+            const submitButton = form.querySelector('button');
+            submitButton.disabled = true;
+            submitButton.innerText = 'Processing...';
+        });
+
+        // Function to close the popup
+        function closeDescriptionPopup() {
+            const popup = document.getElementById('descriptionPopup');
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }
+
+        // Example: Show popup on page load (you can remove this if not needed)
+        window.onload = function() {
+            document.getElementById('descriptionPopup').style.display = 'block';
+        };
+    </script>
+</body>
+</html>
